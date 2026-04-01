@@ -1,26 +1,17 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-// Import the centralized sequelize instance and models
+const cors = require('cors');
 const { sequelize } = require('./models'); 
 
-const app = express();
-
-// Middleware
+const app = express();
 app.use(cors());
-app.use(express.json());
-
-// --- Routes ---
-// Note: The relationships are now handled inside ./models/index.js 
-// so they don't need to be defined here anymore.
+app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/transactions', require('./routes/transactions'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/reports', require('./routes/reports')); 
 app.use('/api/export', require('./routes/export'));
-app.use('/api/budgets', require('./routes/budgets')); 
-
-// --- Database Sync & Server Start ---
+app.use('/api/budgets', require('./routes/budgets')); 
 const PORT = process.env.PORT || 5000;
 
 try {
