@@ -1,37 +1,6 @@
 const { Transaction } = require('../models'); 
 const { fn, col, Op } = require('sequelize');
 
-exports.getPieChart = async (req, res) => {
-  try {
-    const data = await Transaction.findAll({
-      where: { 
-        userId: req.user.id, // Ensures you only see YOUR data
-        type: 'expense' 
-      },
-      attributes: [
-        'category',
-        [fn('SUM', col('amount')), 'total']
-      ],
-      group: ['category']
-    });
-
-    const labels = data.map(item => item.category);
-    const totals = data.map(item => parseFloat(item.getDataValue('total')) || 0);
-
-    res.json({
-      labels: labels,
-      datasets: [{
-        label: 'Expenses by Category',
-        data: totals,
-        backgroundColor: [
-          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
-        ]
-      }]
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
 
 exports.getMonthlySummary = async (req, res) => {
   try {

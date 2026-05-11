@@ -7,6 +7,15 @@ const Transaction = sequelize.define('Transaction', {
   type: { type: DataTypes.ENUM('income', 'expense'), allowNull: false },
   description: { type: DataTypes.STRING },
   date: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW }
+}, {
+  indexes: [
+    {
+      fields: ['userId', 'date']
+    },
+    {
+      fields: ['userId', 'categoryId']
+    }
+  ]
 });
 
 module.exports = Transaction;

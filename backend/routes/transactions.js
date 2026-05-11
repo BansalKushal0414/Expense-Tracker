@@ -3,6 +3,7 @@ const auth = require('../middleware/auth');
 const transactionsController = require('../controllers/transactionsController');
 
 router.post('/', auth, transactionsController.createTransaction);
+router.get('/', auth, transactionsController.getTransactions);
 
 router.get('/reports/summary', auth, transactionsController.getSummaryReport);
 

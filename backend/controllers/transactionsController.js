@@ -104,3 +104,27 @@ exports.getSummaryReport = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getTransactions = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Transaction.findAndCountAll({
+      where: { userId: req.user.id },
+      order: [['date', 'DESC'], ['createdAt', 'DESC']],
+      limit,
+      offset
+    });
+
+    res.json({
+      total: count,
+      page,
+      pages: Math.ceil(count / limit),
+      data: rows
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

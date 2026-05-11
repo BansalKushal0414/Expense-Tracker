@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "anti-purple-ui": {
+      "source": "blunotech-dev/agents",
+      "sourceType": "github",
+      "skillPath": "design/anti-purple-ui/SKILL.md",
+      "computedHash": "c661d4558a7da274908e5b64af9d17274a6752434a846b91a97f5d580557ee6f"
+    }
+  }
+}

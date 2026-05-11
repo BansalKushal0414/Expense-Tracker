@@ -9,7 +9,10 @@ exports.registerUser = async (req, res) => {
     await User.create({ email, password: hashed });
     res.status(201).json({ message: "User registered" });
   } catch (err) { 
-    res.status(400).json({ error: err.message }); 
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+    res.status(400).json({ error: "Registration failed. Please check your inputs." }); 
   }
 };
 
@@ -22,6 +25,6 @@ exports.loginUser = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Internal server error during login" });
   }
 };
